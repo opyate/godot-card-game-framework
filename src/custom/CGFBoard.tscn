@@ -132,6 +132,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Authenticate" type="MenuButton" parent="."]
+margin_left = 370.0
+margin_top = 46.0
+margin_right = 510.0
+margin_bottom = 86.0
+text = "Authenticate"
+flat = false
+items = [ "testAcc1@dbzer0.com", null, 0, false, false, 0, 0, null, "", false, "testAcc2@dbzer0.com", null, 0, false, false, 1, 0, null, "", false ]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InitMatch2" type="Button" parent="."]
+margin_left = 528.0
+margin_top = 47.0
+margin_right = 668.0
+margin_bottom = 87.0
+text = "InitMatch"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Debug" type="CheckButton" parent="."]
 margin_left = 789.192
 margin_top = 3.36737
@@ -179,6 +201,13 @@ margin_right = -4.0
 margin_bottom = -4.0
 info_panel_scene = ExtResource( 11 )
 
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_left = 525.0
+margin_top = 98.0
+margin_right = 669.0
+margin_bottom = 122.0
+placeholder_text = "Join Match ID"
+
 [connection signal="toggled" from="FancyMovementToggle" to="." method="_on_FancyMovementToggle_toggled"]
 [connection signal="toggled" from="EnableAttach" to="." method="_on_EnableAttach_toggled"]
 [connection signal="item_selected" from="ScalingFocusOptions" to="." method="_on_ScalingFocusOptions_item_selected"]
@@ -186,6 +215,8 @@ info_panel_scene = ExtResource( 11 )
 [connection signal="pressed" from="ReshuffleAllDiscard" to="." method="_on_ReshuffleAllDiscard_pressed"]
 [connection signal="toggled" from="OvalHandToggle" to="." method="_on_OvalHandToggle_toggled"]
 [connection signal="pressed" from="DeckBuilder" to="." method="_on_DeckBuilder_pressed"]
+[connection signal="pressed" from="InitMatch2" to="." method="_on_InitMatch_pressed"]
 [connection signal="toggled" from="Debug" to="." method="_on_Debug_toggled"]
+[connection signal="text_entered" from="LineEdit" to="." method="_on_LineEdit_text_entered"]
 
 [editable path="Discard"]

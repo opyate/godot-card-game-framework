@@ -429,7 +429,7 @@ config/icon="res://icon.png"
 [autoload]
 
 cfc="*res://src/core/CFControl.gd"
-nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
+Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
 
 [display]
 

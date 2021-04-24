@@ -108,7 +108,7 @@ func _ready() -> void:
 	# Initialize the game random seed
 	set_seed(game_rng_seed)
 	card_definitions = load_card_definitions()
-	if nakama:
+	if Nakama:
 		nakama_client = load(CFConst.NAKAMA_CLIENT_LOCATION).new()
 
 

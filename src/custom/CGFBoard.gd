@@ -23,6 +23,7 @@ func _ready() -> void:
 		load_test_cards()
 	# warning-ignore:return_value_discarded
 	$DeckBuilderPopup.connect('popup_hide', self, '_on_DeckBuilder_hide')
+	$Authenticate.get_popup().connect("index_pressed", self, "_on_auth_selected")
 
 
 
@@ -104,3 +105,17 @@ func _on_DeckBuilder_pressed() -> void:
 
 func _on_DeckBuilder_hide() -> void:
 	cfc.game_paused = false
+
+
+func _on_InitMatch_pressed() -> void:
+	cfc.nakama_client.create_match()
+
+
+func _on_auth_selected(index: int) -> void:
+	var pop : PopupMenu = $Authenticate.get_popup()
+	cfc.nakama_client.authenticate(pop.get_item_text(index), 'CGFNakamaDemo')
+	cfc.nakama_client.curr_email = pop.get_item_text(index)
+	cfc.nakama_client.curr_pass = 'CGFNakamaDemo'
+
+func _on_LineEdit_text_entered(new_text: String) -> void:
+	cfc.nakama_client.join_match(new_text)
