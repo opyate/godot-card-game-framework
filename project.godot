@@ -44,6 +44,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/core/CFInt.gd"
 }, {
+"base": "PanelContainer",
+"class": "CFMatchMaker",
+"language": "GDScript",
+"path": "res://src/networking/matchmaking/MatchMaker.gd"
+}, {
+"base": "HBoxContainer",
+"class": "CFMatchObject",
+"language": "GDScript",
+"path": "res://src/networking/matchmaking/MatchObject.gd"
+}, {
 "base": "Reference",
 "class": "CFNakamaClient",
 "language": "GDScript",
@@ -357,6 +367,8 @@ _global_script_class_icons={
 "CFConst": "",
 "CFControl": "",
 "CFInt": "",
+"CFMatchMaker": "",
+"CFMatchObject": "",
 "CFNakamaClient": "",
 "CFScriptUtils": "",
 "CFUtils": "",

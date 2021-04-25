@@ -224,4 +224,7 @@ const STATS_PORT := 8000
 # even if you remove the networking folder completely (e.g. for a single-player game)
 # To make this work, make sure you have the Nakama singleton loaded as 'nakama'
 # as [per instructions](https://github.com/heroiclabs/nakama-godot)
-const NAKAMA_CLIENT_LOCATION = "res://src/networking/NakamaClient.gd"
+
+const NETWORKING_PATH = "res://src/networking/"
+const NAKAMA_CLIENT_LOCATION = NETWORKING_PATH + "NakamaClient.gd"
+const NAKAMA_MATCHMAKING_PATH = NETWORKING_PATH + "matchmaking/"

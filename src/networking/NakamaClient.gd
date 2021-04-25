@@ -15,9 +15,8 @@ var curr_pass: String
 func _init() -> void:
 	client = Nakama.create_client(SERVER_KEY, HOST, PORT, SCHEME)
 	socket = Nakama.create_socket_from(client)
-	if cfc.game_settings.has('nakama_auth_token'):
-		restore_session()
-
+#	socket.connect("received_notification", self, "_on_notification")
+	
 func authenticate(email, password) -> bool:
 	# Use yield(client.function(), "completed") to wait for the request to complete.
 	session = yield(client.authenticate_email_async(email, password), "completed")
@@ -28,7 +27,7 @@ func authenticate(email, password) -> bool:
 		yield(socket.connect_async(session), "completed")	
 	else:
 		print("Nakama Authentication failed!")
-	return(session.is_valid())
+	return(session)
 	
 func restore_session() -> bool:
 	session = NakamaClient.restore_session(cfc.game_settings.nakama_auth_token)
@@ -40,18 +39,16 @@ func restore_session() -> bool:
 			authenticate(curr_email, curr_pass)
 		else:
 			print("Nakama session has expired. Please authenticate again!")
-	return(session.is_valid())
+	return(session)
 
-
-func create_match() -> void:
+func create_match() -> NakamaRTAPI.Match:
 	if not session.valid or session.expired:
 		if curr_email and curr_pass:
 			authenticate(curr_email, curr_pass)
 	var created_match : NakamaRTAPI.Match = yield(socket.create_match_async(), "completed")
 	if created_match.is_exception():
 	  print("An error occured: %s" % created_match)
-	  return
-	print(created_match.match_id)
+	return(created_match)
 
 func join_match(match_id: String) -> void:
 	var joined_match = yield(socket.join_match_async(match_id), "completed")
@@ -59,4 +56,4 @@ func join_match(match_id: String) -> void:
 		print("An error occured: %s" % joined_match)
 		return
 	for presence in joined_match.presences:
-		print("User id %s name %s'." % [presence.user_id, presence.username])	
+		print("User id %s name %s'." % [presence.user_id, presence.username])

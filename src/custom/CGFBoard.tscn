@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/custom/CGFDiscard.gd" type="Script" id=1]
 [ext_resource path="res://src/core/Pile.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://fonts/Comfortaa-Bold.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://src/core/DeckBuilder/DeckBuilder.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/custom/CGFInfoPanel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://src/networking/matchmaking/MatchMaker.tscn" type="PackedScene" id=12]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
@@ -132,24 +133,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Authenticate" type="MenuButton" parent="."]
-margin_left = 370.0
-margin_top = 46.0
-margin_right = 510.0
-margin_bottom = 86.0
-text = "Authenticate"
-flat = false
-items = [ "testAcc1@dbzer0.com", null, 0, false, false, 0, 0, null, "", false, "testAcc2@dbzer0.com", null, 0, false, false, 1, 0, null, "", false ]
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="InitMatch2" type="Button" parent="."]
-margin_left = 528.0
+[node name="Multiplayer" type="Button" parent="."]
+margin_left = 373.0
 margin_top = 47.0
-margin_right = 668.0
+margin_right = 513.0
 margin_bottom = 87.0
-text = "InitMatch"
+text = "Multiplayer"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -201,12 +190,16 @@ margin_right = -4.0
 margin_bottom = -4.0
 info_panel_scene = ExtResource( 11 )
 
-[node name="LineEdit" type="LineEdit" parent="."]
-margin_left = 525.0
-margin_top = 98.0
-margin_right = 669.0
-margin_bottom = 122.0
-placeholder_text = "Join Match ID"
+[node name="MultiplayerPopup" type="PopupPanel" parent="."]
+margin_right = 1000.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 800, 0 )
+
+[node name="MultiplayerPanel" parent="MultiplayerPopup" instance=ExtResource( 12 )]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 996.0
+margin_bottom = 596.0
 
 [connection signal="toggled" from="FancyMovementToggle" to="." method="_on_FancyMovementToggle_toggled"]
 [connection signal="toggled" from="EnableAttach" to="." method="_on_EnableAttach_toggled"]
@@ -215,8 +208,7 @@ placeholder_text = "Join Match ID"
 [connection signal="pressed" from="ReshuffleAllDiscard" to="." method="_on_ReshuffleAllDiscard_pressed"]
 [connection signal="toggled" from="OvalHandToggle" to="." method="_on_OvalHandToggle_toggled"]
 [connection signal="pressed" from="DeckBuilder" to="." method="_on_DeckBuilder_pressed"]
-[connection signal="pressed" from="InitMatch2" to="." method="_on_InitMatch_pressed"]
+[connection signal="pressed" from="Multiplayer" to="." method="_on_Multiplayer_pressed"]
 [connection signal="toggled" from="Debug" to="." method="_on_Debug_toggled"]
-[connection signal="text_entered" from="LineEdit" to="." method="_on_LineEdit_text_entered"]
 
 [editable path="Discard"]
