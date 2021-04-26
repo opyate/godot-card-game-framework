@@ -20,7 +20,7 @@ func _ready() -> void:
 		var session = nakama_client.restore_session()
 		if session is GDScriptFunctionState:
 			session = yield(session, "completed")
-		new_match_name.text = session.username + "'s game"
+		_finalize_authentication(session)
 	authenticate_button.get_popup().connect("index_pressed", self, "_on_auth_selected")
 	nakama_client.socket.connect("received_notification", self, "_on_notification")
 	_timer.connect("timeout", self, "refresh_available_matches")
@@ -40,7 +40,6 @@ func _on_CreateMatch_pressed() -> void:
 	)
 #	print_debug(new_match)
 
-
 func _on_auth_selected(index: int) -> void:
 	var pop : PopupMenu = authenticate_button.get_popup()
 	var session: NakamaSession = yield(
@@ -50,9 +49,11 @@ func _on_auth_selected(index: int) -> void:
 	nakama_client.authenticate(pop.get_item_text(index), 'CGFNakamaDemo')
 	nakama_client.curr_email = pop.get_item_text(index)
 	nakama_client.curr_pass = 'CGFNakamaDemo'
-	connection_status.text = "Authenticated As: " + pop.get_item_text(index)
-	new_match_name.text = session.username + "'s game"
+	_finalize_authentication(session)
 
+func _finalize_authentication(session: NakamaSession) -> void:
+	connection_status.text = "Authenticated As: " + session.username
+	new_match_name.text = session.username + "'s game"
 
 func _on_LineEdit_text_entered(new_text: String) -> void:
 	nakama_client.join_match(new_text)
