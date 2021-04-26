@@ -12,6 +12,7 @@ onready var authenticate_button = $VBC/HBC/Authenticate
 onready var connection_status = $VBC/HBC/ConnectionStatus
 onready var new_match_name = $VBC/HBoxContainer/NewMatchName
 onready var matches_list = $VBC/HSplitContainer/ScrollContainer/Matches
+onready var current_match_name_label = $VBC/HSplitContainer/CurrentMatch/HBC/MatchName
 onready var _timer = $LobbyRefresh
 
 func _ready() -> void:
@@ -23,6 +24,8 @@ func _ready() -> void:
 		_finalize_authentication(session)
 	authenticate_button.get_popup().connect("index_pressed", self, "_on_auth_selected")
 	nakama_client.socket.connect("received_notification", self, "_on_notification")
+	#warning-ignore: return_value_discarded
+	nakama_client.socket.connect("received_match_state", self, "_on_received_match_state")
 	_timer.connect("timeout", self, "refresh_available_matches")
 
 
@@ -52,8 +55,9 @@ func _on_auth_selected(index: int) -> void:
 	_finalize_authentication(session)
 
 func _finalize_authentication(session: NakamaSession) -> void:
-	connection_status.text = "Authenticated As: " + session.username
-	new_match_name.text = session.username + "'s game"
+	if session.valid and not session.expired:
+		connection_status.text = "Authenticated As: " + session.username
+		new_match_name.text = session.username + "'s game"
 
 func _on_LineEdit_text_entered(new_text: String) -> void:
 	nakama_client.join_match(new_text)
@@ -61,7 +65,7 @@ func _on_LineEdit_text_entered(new_text: String) -> void:
 func refresh_available_matches() -> void:
 	if not nakama_client.session.valid or nakama_client.session.expired:
 		return
-#	print_debug(nakama_client.session.valid, nakama_client.session.expired)
+	print_debug(nakama_client.session.valid, nakama_client.session.expired)
 	var matches: NakamaAPI.ApiRpc = yield(
 		nakama_client.client.rpc_async(nakama_client.session, "get_all_matches", ""), "completed"
 	)
@@ -79,6 +83,10 @@ func _on_notification(p_notification : NakamaAPI.ApiNotification):
 	print_debug(p_notification)
 	print_debug(p_notification.content)
 
-
 func _on_NewMatchName_text_entered(new_text: String) -> void:
 	_on_CreateMatch_pressed()
+
+func _on_received_match_state(match_state: NakamaRTAPI.MatchData) -> void:
+	var code := match_state.op_code
+	var raw := match_state.data
+#	print_debug(code,raw)

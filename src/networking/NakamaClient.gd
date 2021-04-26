@@ -33,7 +33,8 @@ func restore_session() -> bool:
 	session = NakamaClient.restore_session(cfc.game_settings.nakama_auth_token)
 	if session.valid and not session.expired:
 		print("Existing nakama session restored")
-		yield(socket.connect_async(session), "completed")	
+		var ret = yield(socket.connect_async(session), "completed")
+#		print_debug(ret)
 	else:
 		if curr_email and curr_pass:
 			authenticate(curr_email, curr_pass)

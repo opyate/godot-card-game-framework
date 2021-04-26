@@ -17,3 +17,5 @@ func setup(_match_name, _match_id, _match_maker) -> void:
 
 func _on_JoinMatch_pressed() -> void:
 	match_maker.nakama_client.join_match(match_id)
+	match_maker.current_match_name_label.text = match_name.text
+	
